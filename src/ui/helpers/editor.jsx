@@ -1,5 +1,5 @@
-import './styles/editor.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import "./styles/editor.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
   faItalic,
@@ -17,13 +17,14 @@ import {
   faDroplet,
   faParagraph,
   faFileCode,
-} from '@fortawesome/free-solid-svg-icons';
-import { EditorProvider, useCurrentEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import PropTypes from 'prop-types';
-import { Color } from '@tiptap/extension-color';
-import ListItem from '@tiptap/extension-list-item';
-import TextStyle from '@tiptap/extension-text-style';
+} from "@fortawesome/free-solid-svg-icons";
+import { EditorProvider, useCurrentEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import PropTypes from "prop-types";
+import { Color } from "@tiptap/extension-color";
+import ListItem from "@tiptap/extension-list-item";
+import TextStyle from "@tiptap/extension-text-style";
+import { useState } from "react";
 
 const Dropdown = ({ options, onSelect }) => {
   return (
@@ -63,28 +64,28 @@ const MenuBar = () => {
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'is-active' : ''}
+        className={editor.isActive("bold") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faBold} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'is-active' : ''}
+        className={editor.isActive("italic") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faItalic} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'is-active' : ''}
+        className={editor.isActive("strike") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faStrikethrough} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={editor.isActive('code') ? 'is-active' : ''}
+        className={editor.isActive("code") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faCode} />
       </button>
@@ -96,31 +97,31 @@ const MenuBar = () => {
       </button>
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive('paragraph') ? 'is-active' : ''}
+        className={editor.isActive("paragraph") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faParagraph} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive('bulletList') ? 'is-active' : ''}
+        className={editor.isActive("bulletList") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faListUl} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive('orderedList') ? 'is-active' : ''}
+        className={editor.isActive("orderedList") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faListOl} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive('codeBlock') ? 'is-active' : ''}
+        className={editor.isActive("codeBlock") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faFileCode} />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive('blockquote') ? 'is-active' : ''}
+        className={editor.isActive("blockquote") ? "is-active" : ""}
       >
         <FontAwesomeIcon icon={faQuoteRight} />
       </button>
@@ -143,9 +144,9 @@ const MenuBar = () => {
         <FontAwesomeIcon icon={faRedo} />
       </button>
       <button
-        onClick={() => editor.chain().focus().setColor('#958DF1').run()}
+        onClick={() => editor.chain().focus().setColor("#958DF1").run()}
         className={
-          editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''
+          editor.isActive("textStyle", { color: "#958DF1" }) ? "is-active" : ""
         }
       >
         <FontAwesomeIcon icon={faDroplet} />
@@ -205,13 +206,24 @@ display: none;
 `;
 
 const Tiptap = () => {
+
+  const handleContentChange = () => {
+    if (props.onContentChange && editor) {
+      props.onContentChange(editor.getHTML());
+    }
+  };
+  
   return (
     <EditorProvider
       slotBefore={<MenuBar />}
       extensions={extensions}
       content={content}
-    ></EditorProvider>
+    >
+    {/* {content} */}
+    </EditorProvider>
   );
 };
+
+
 
 export default Tiptap;
