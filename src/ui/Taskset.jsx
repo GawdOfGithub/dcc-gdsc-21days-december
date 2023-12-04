@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import ReactHtmlParser from "react-html-parser"
+import ReactHtmlParser from "react-html-parser";
 
 const data = [
   {
@@ -75,44 +75,75 @@ const data = [
 function Taskset() {
   const [activeTab, setActiveTab] = useState("Web Development");
   const [taskData, setTaskData] = useState({});
-//   const [data, setData] = useState({});
+  const [clickDay, setClickDay] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  //   const [data, setData] = useState({});
 
-  
-//   const fetchData = async (url) => {
-//     try {
-//       const response = await fetch(url);
-//       const data = await response.json();
-//       setData(data);
-//     } catch (error) {
-//       console.error('Error fetching data:', error);
-//     }
-//   };
-//   useEffect(() => {
-//     const endpointMap = {
-//       'Web Development': `${BASEURL}/task/all/web`,
-//       'Mobile Development': `${BASEURL}/task/all/android`,
-//       'Machine Learning': `${BASEURL}/task/all/ml`,
-//     };
+  //   const fetchData = async (url) => {
+  //     try {
+  //       const response = await fetch(url);
+  //       const data = await response.json();
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  //   useEffect(() => {
+  //     const endpointMap = {
+  //       'Web Development': `${BASEURL}/task/all/web`,
+  //       'Mobile Development': `${BASEURL}/task/all/android`,
+  //       'Machine Learning': `${BASEURL}/task/all/ml`,
+  //     };
 
-//     const fetchDataForActiveTab = async () => {
-//       const url = endpointMap[activeTab];
-//       if (url) {
-//         fetchData(url);
-//       }
-//     };
+  //     const fetchDataForActiveTab = async () => {
+  //       const url = endpointMap[activeTab];
+  //       if (url) {
+  //         fetchData(url);
+  //       }
+  //     };
 
-//     fetchDataForActiveTab();
-//   }, [activeTab]);
+  //     fetchDataForActiveTab();
+  //   }, [activeTab]);
+
+  //   const fetchTaskData = async (url) => {
+  //     try {
+  //       const response = await fetch(url);
+  //       const data = await response.json();
+  //       setTaskData(data);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.error('Error fetching Taskdata:', error);
+  //     }
+  //   };
+  //   useEffect(() => {
+  //     const endpointMap = {
+  //       'Web Development': `${BASEURL}/task/all/web`,
+  //       'Mobile Development': `${BASEURL}/task/all/android`,
+  //       'Machine Learning': `${BASEURL}/task/all/ml`,
+  //     };
+
+  //     const fetchDataForActiveTask = async () => {
+  //       const url = endpointMap[activeTab]/`${clickDay}`;
+  //       if (url) {
+  //         fetchData(url);
+  //       }
+  //     };
+
+  //     fetchDataForActiveTask();
+  //   }, [clickDay]);
+
+  // const curDay = fetch(`${BASEURL}/day`).json();
+  const curDay = 5;
 
   const handleClick = (platform) => {
     setActiveTab(platform);
-
   };
 
   const handleCheck = (e) => {
+    // clickDay(e.day);
+    // setIsLoading(true);
     setTaskData(e);
   };
-
 
   return (
     <div id="taskset">
@@ -153,6 +184,11 @@ function Taskset() {
             </thead>
             <tbody>
               {data.map((item, index) => {
+                // Check if item.day is greater than curDay before rendering
+                if (item.day > curDay) {
+                  return null; // Skip rendering this row
+                }
+
                 return (
                   <tr key={index}>
                     <th>{item.day}</th>
@@ -180,7 +216,6 @@ function Taskset() {
             Day {taskData.day} : {taskData.title}
           </h3>
           <div className="py-4">{ReactHtmlParser(taskData.description)}</div>
-
         </div>
         <label className="modal-backdrop" htmlFor="my_modal_7">
           Close
