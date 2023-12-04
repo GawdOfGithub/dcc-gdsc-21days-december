@@ -12,6 +12,6 @@ import './footer.css'; // Keep your custom styles if necessary
 
 export const Footer = () => {
     return (
-
+        <></>
     );
 };
