@@ -8,43 +8,53 @@ import { useForm } from "react-hook-form"
 import { DevTool } from '@hookform/devtools';
 import { useMutation } from 'react-query';
 import useApiStore from '../api/ApiStore';
-// import {useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom';
 import { ErrorMessage } from "@hookform/error-message"
+import { Loader } from '../components/Loader';
+
 export default function Register() {
-  const {register:registerForm} = useApiStore()
-const mutate = useMutation()
+  const {setToken,register:registerForm} = useApiStore()
+  const navigate = useNavigate()
+const mutation = useMutation(registerForm)
   const {
     register,
     handleSubmit,
     control,
     watch,
     formState:{errors}
-    
-
   } = useForm({
     criteriaMode:"all"
   })
   const password = watch("password","")
-  const onSubmit = async(data) =>
-  {
-    try
-    {
-    const {confirmPassword, ...formData} = data;
+  const onSubmit = (data) => {
+    const { confirmPassword, ...formData } = data;
     console.log(formData);
-   await mutate(data)
-    }
-    catch(error)
-    {
-      console.log(error);
-    }
+  
+    mutation.mutate(formData, {
+      onSuccess: (data) => {
+        const {msg,token} = data
+        alert(msg);
+        setToken(token)
+        navigate("/user")
 
-
-  }
+        // You can handle success actions here, such as redirecting to another page
+      },
+      onError: (error) => {
+        console.log(error);
+        // You can handle error actions here, such as displaying an error message
+      },
+    });
+  };
 
   
- 
-  
+if(mutation.isLoading)
+{
+  return <Loader/>
+}
+else
+{
   return (
+    
     <div className='w-1/2 min-h-fit mx-auto mt-40 min-w-fit z-40 relative  ' onSubmit={handleSubmit(onSubmit)}  >
       <form className='bg-slate-300 shadow-md rounded px-8 pt-6 pb-8 mb-4 custom-bg-color'>
         <div className='mb-4'>
@@ -110,7 +120,7 @@ const mutate = useMutation()
         <div className='mb-4'>
         <input
             className='shadow appearance-none border rounded w-full py-2 px-3 text-white font-bold leading-tight focus:outline-none focus:shadow-outline custom-bg-color '
-            {...register("enrollmentNumber", { required: "Enrollment number is required",pattern:
+            {...register("enrollNo", { required: "Enrollment number is required",pattern:
             {
             value:/^\d{2}[A-Z]{3,4}\d{3}$/,
             message:"Enrollment number must be in the format of 2 digits, 3 or 4 letters, and 3 digits"
@@ -120,7 +130,7 @@ const mutate = useMutation()
           />
                 <ErrorMessage
         errors={errors}
-        name="enrollmentNumber"
+        name="enrollNo"
         render={({ messages }) =>
           messages &&
           Object.entries(messages).map(([type, message]) => (
@@ -224,4 +234,5 @@ const mutate = useMutation()
       </div>
     </div>
   );
+      }
 }

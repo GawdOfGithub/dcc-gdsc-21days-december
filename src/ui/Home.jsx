@@ -1,17 +1,20 @@
-import React from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
-import { Link } from "react-router-dom";
-import timeline from "../../public/timeline.png";
-import { useState, useEffect } from "react";
+import React from 'react';
+import Particles from 'react-tsparticles';
+import { loadFull } from 'tsparticles';
+import { Link } from 'react-router-dom';
+import timeline from '../../public/timeline.png';
+import { useState, useEffect } from 'react';
 const Home = () => {
-
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [delta, setDelta] = useState(200 - Math.random() * 100);
   const [index, setIndex] = useState(1);
-  const toRotate = ["Web Development", "Mobile Development", "Machine Learning"];
+  const toRotate = [
+    'Web Development',
+    'Mobile Development',
+    'Machine Learning',
+  ];
   const period = 500;
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Home = () => {
       setIsDeleting(true);
       setIndex((prevIndex) => prevIndex - 1);
       setDelta(period);
-    } else if (isDeleting && updatedText === "") {
+    } else if (isDeleting && updatedText === '') {
       setIsDeleting(false);
       setLoopNum(loopNum + 1);
       setIndex(1);

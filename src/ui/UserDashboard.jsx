@@ -1,6 +1,29 @@
-import React, { useState } from "react";
+import { useState,useEffect } from "react";
 import "./styles.css";
+import { useDayNumber } from "../hooks/useDayNo";
 const UserDashBoard = () => {
+  const [dayNo, setDayNo] = useState();
+  
+
+  
+const onSuccess  = async(result) =>
+{
+  try
+  {
+
+  console.log(result);
+ await setDayNo((result)=>setDayNo(result))
+  }
+  catch(error)
+  {
+    console.log(error);
+  }
+
+}
+
+
+useDayNumber(onSuccess)
+  
   const data = [
     {
       day: 1,
@@ -16,16 +39,21 @@ const UserDashBoard = () => {
 
   const [driveLink, setDriveLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
-
+  const [selectedOption, setSelectedOption] = useState('');
   const handleDriveLinkChange = (e) => {
     setDriveLink(e.target.value);
   };
-
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+    console.log(selectedOption);
+  };
   const handleLiveLinkChange = (e) => {
     setLiveLink(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     const isValidUrl = urlRegex.test(driveLink);
 
@@ -34,8 +62,8 @@ const UserDashBoard = () => {
       alert(`Invalid link`);
       return;
     }
-
-    console.log("Form submitted:", { driveLink, liveLink });
+    console.log(dayNo);
+    console.log("Form submitted:", { driveLink, liveLink,domain:selectedOption,dayNo });
   };
 
   return (
@@ -43,7 +71,7 @@ const UserDashBoard = () => {
       <div className="custom-bg-color bounded flex flex-col items-center justify-center h-[100vh]">
         <h1 className="pb-7 ">User Dashboard</h1>
         <div className="submission-form rounded-lg lg:flex items-center justify-center p-8 w-[50wh]">
-          <select className="select select-bordered w-full max-w-xs">
+          <select className="select select-bordered w-full max-w-xs" value={selectedOption} onChange={handleChange}>
             <option disabled selected>
               Select Domain
             </option>
@@ -90,7 +118,7 @@ const UserDashBoard = () => {
           className="btn -mt-9 mb-8 text-white hover:bg-green-500 hover:text-white"
           onClick={handleSubmit}
           disabled={!driveLink}
-          // onclick(2 colors red n green)
+          
         >
           Submit
         </button>
