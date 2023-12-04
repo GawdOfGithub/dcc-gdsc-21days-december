@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 // import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useForm } from "react-hook-form"
 import { DevTool } from '@hookform/devtools';
+import { useMutation } from 'react-query';
+import useApiStore from '../api/ApiStore';
 // import {useNavigate} from 'react-router-dom'
 import { ErrorMessage } from "@hookform/error-message"
 export default function Register() {
-
+  const {register:registerForm} = useApiStore()
+const mutate = useMutation()
   const {
     register,
     handleSubmit,
@@ -22,7 +25,21 @@ export default function Register() {
     criteriaMode:"all"
   })
   const password = watch("password","")
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = async(data) =>
+  {
+    try
+    {
+    const {confirmPassword, ...formData} = data;
+    console.log(formData);
+   await mutate(data)
+    }
+    catch(error)
+    {
+      console.log(error);
+    }
+
+
+  }
 
   
  

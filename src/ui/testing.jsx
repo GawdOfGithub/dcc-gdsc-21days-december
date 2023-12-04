@@ -3,20 +3,18 @@ import useApiStore from '../api/ApiStore';
 import { useQuery } from 'react-query';
 
 const Testing = () => {
-  const { testApi,responseData } = useApiStore(); // Fix: use destructuring for the named export
-  const { data, isLoading, error } = useQuery('testApi', testApi);
-  const [hello, setHello] = useState("");
-  
-  useEffect(()=>
-  {
-    setHello(responseData)
+  const [pong, setPong] = useState();
 
-  },[responseData])
+  const { testApi,responseData } = useApiStore(); // Fix: use destructuring for the named export
+  const { data, isLoading, error,onSuccess } = useQuery('testApi', testApi);
+
+
   const handleIt = async() => {
     try
     {
        
     console.log('Data:', data);
+    setPong(data)
     }
     catch(error)
     {
@@ -27,8 +25,8 @@ const Testing = () => {
   return (
     <>
     <button onClick={handleIt} className='text-[200px]'>Testing</button> 
-    <div>{responseData.data}</div>
-    </>
+    <div className='text-[200px]'>{pong}</div>
+      </>
   );
 };
 
