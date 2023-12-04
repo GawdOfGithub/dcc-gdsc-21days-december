@@ -8,44 +8,53 @@ import { useForm } from "react-hook-form"
 import { DevTool } from '@hookform/devtools';
 import { useMutation } from 'react-query';
 import useApiStore from '../api/ApiStore';
-// import {useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom';
 import { ErrorMessage } from "@hookform/error-message"
+import { Loader } from '../components/Loader';
+
 export default function Register() {
-  const {register:registerForm,setToken} = useApiStore()
-const mutate = useMutation()
+  const {setToken,register:registerForm} = useApiStore()
+  const navigate = useNavigate()
+const mutation = useMutation(registerForm)
   const {
     register,
     handleSubmit,
     control,
     watch,
     formState:{errors}
-    
-
   } = useForm({
     criteriaMode:"all"
   })
   const password = watch("password","")
-  const onSubmit = async(data) =>
-  {
-    try
-    {
-    const {confirmPassword, ...formData} = data;
+  const onSubmit = (data) => {
+    const { confirmPassword, ...formData } = data;
     console.log(formData);
-    await registerForm(formData)
-  const response = await mutate.mutateAsync(formData)
-   setToken(response.data.token);
-    }
-    catch(error)
-    {
-      console.log(error);
-    }
+  
+    mutation.mutate(formData, {
+      onSuccess: (data) => {
+        const {msg,token} = data
+        alert(msg);
+        setToken(token)
+        navigate("/user")
 
-
-  }
+        // You can handle success actions here, such as redirecting to another page
+      },
+      onError: (error) => {
+        console.log(error);
+        // You can handle error actions here, such as displaying an error message
+      },
+    });
+  };
 
   
-
+if(mutation.isLoading)
+{
+  return <Loader/>
+}
+else
+{
   return (
+    
     <div className='w-1/2 min-h-fit mx-auto mt-40 min-w-fit z-40 relative  ' onSubmit={handleSubmit(onSubmit)}  >
       <form className='bg-slate-300 shadow-md rounded px-8 pt-6 pb-8 mb-4 custom-bg-color'>
         <div className='mb-4'>
@@ -225,4 +234,5 @@ const mutate = useMutation()
       </div>
     </div>
   );
+      }
 }

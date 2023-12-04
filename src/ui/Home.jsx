@@ -1,8 +1,4 @@
-import React from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
 import { Link } from 'react-router-dom';
-import timeline from '../../public/timeline.png'
 const Home = () => {
 
 
