@@ -11,7 +11,7 @@ import useApiStore from '../api/ApiStore';
 // import {useNavigate} from 'react-router-dom'
 import { ErrorMessage } from "@hookform/error-message"
 export default function Register() {
-  const {register:registerForm} = useApiStore()
+  const {register:registerForm,setToken} = useApiStore()
 const mutate = useMutation()
   const {
     register,
@@ -31,7 +31,9 @@ const mutate = useMutation()
     {
     const {confirmPassword, ...formData} = data;
     console.log(formData);
-   await mutate(data)
+    await registerForm(formData)
+  const response = await mutate.mutateAsync(formData)
+   setToken(response.data.token);
     }
     catch(error)
     {
@@ -42,8 +44,7 @@ const mutate = useMutation()
   }
 
   
- 
-  
+
   return (
     <div className='w-1/2 min-h-fit mx-auto mt-40 min-w-fit z-40 relative  ' onSubmit={handleSubmit(onSubmit)}  >
       <form className='bg-slate-300 shadow-md rounded px-8 pt-6 pb-8 mb-4 custom-bg-color'>
@@ -110,7 +111,7 @@ const mutate = useMutation()
         <div className='mb-4'>
         <input
             className='shadow appearance-none border rounded w-full py-2 px-3 text-white font-bold leading-tight focus:outline-none focus:shadow-outline custom-bg-color '
-            {...register("enrollmentNumber", { required: "Enrollment number is required",pattern:
+            {...register("enrollNo", { required: "Enrollment number is required",pattern:
             {
             value:/^\d{2}[A-Z]{3,4}\d{3}$/,
             message:"Enrollment number must be in the format of 2 digits, 3 or 4 letters, and 3 digits"
@@ -120,7 +121,7 @@ const mutate = useMutation()
           />
                 <ErrorMessage
         errors={errors}
-        name="enrollmentNumber"
+        name="enrollNo"
         render={({ messages }) =>
           messages &&
           Object.entries(messages).map(([type, message]) => (
