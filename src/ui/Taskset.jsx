@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { BASE_URL } from "../data/data";
+import { Loader } from "./Loader";
 
 const dummydata = [
   {
@@ -77,15 +78,15 @@ function Taskset() {
   const [activeTab, setActiveTab] = useState("Web Development");
   const [taskData, setTaskData] = useState({});
   const [clickDay, setClickDay] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(dummydata);
 
   const fetchData = async (url) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
       setData(data);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -101,42 +102,12 @@ function Taskset() {
     const fetchDataForActiveTab = async () => {
       const url = endpointMap[activeTab];
       if (url) {
-        console.log(url);
         fetchData(url);
       }
     };
-    console.log("USEEFFECT ME AA RHA H ")
     fetchDataForActiveTab();
   }, [activeTab]);
 
-  //DELETED
-  //   const fetchTaskData = async (url) => {
-  //     try {
-  //       const response = await fetch(url);
-  //       const data = await response.json();
-  //       setTaskData(data);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching Taskdata:', error);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     const endpointMap = {
-  //       'Web Development': `${BASEURL}/task/all/web`,
-  //       'Mobile Development': `${BASEURL}/task/all/android`,
-  //       'Machine Learning': `${BASEURL}/task/all/ml`,
-  //     };
-
-  //     const fetchDataForActiveTask = async () => {
-  //       const url = endpointMap[activeTab]/`${clickDay}`;
-  //       if (url) {
-  //         fetchData(url);
-  //       }
-  //     };
-
-  //     fetchDataForActiveTask();
-  //   }, [clickDay]);
-  //DELETED
 
   // ---
   function getDayDifferenceFromSpecificDate(targetDate) {
@@ -157,9 +128,8 @@ function Taskset() {
     return dayDifference;
   }
 
-  const targetDate = "2023-12-01";
-  // const curDay = getDayDifferenceFromSpecificDate(targetDate);
-  const curDay = 25;
+  const targetDate = "2023-12-04";
+  const curDay = getDayDifferenceFromSpecificDate(targetDate);
 
   // ---
 
@@ -168,11 +138,12 @@ function Taskset() {
   };
 
   const handleCheck = (e) => {
-    // clickDay(e.day);
-    // setIsLoading(true);
     setTaskData(e);
   };
-
+  if(isLoading)
+  {
+    return <Loader></Loader>
+  }
   return (
     <div id="taskset">
       <div className="dropdown dropdown-hover flex hoverBox justify-center">

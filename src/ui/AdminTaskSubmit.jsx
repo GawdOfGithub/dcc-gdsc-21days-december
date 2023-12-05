@@ -7,7 +7,7 @@ const AdminTaskSubmit = () => {
  
 
   return (
-    <div className="admin-task-submit">
+    <div className="admin-task-submit mt-20">
 
       <div className="editor-wrapper">
         <Tiptap />

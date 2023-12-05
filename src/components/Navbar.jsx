@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useApiStore from "../api/ApiStore";
+import dcc from "../assets/dccc.jpg"
 const Navbar = () => {
   const {setToken,logout,userName} = useApiStore();
    const navigate = useNavigate()
@@ -24,7 +25,7 @@ const Navbar = () => {
         <li><a>Admin Dashboard</a></li>
       </ul>
     </div>
-    <img src="dcc.svg" height={50} width={50}/>
+    <img src={dcc} height={100} width={100}/>
   </div>
   <div className="navbar-center ">
     <ul className="menu menu-horizontal px-1 flex items-center justify-center">
