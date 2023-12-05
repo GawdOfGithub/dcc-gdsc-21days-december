@@ -12,9 +12,14 @@ const useApiStore = create((set) => ({
     set({ token: newToken });
     localStorage.setItem('token', newToken);
   },
-  setMessage: (newMessage) => {
-    set({ msg: newMessage });
+  
+  logout:()=>
+  {
+    set({token:null})
+    localStorage.removeItem('token');
   },
+
+
     testApi: async () => {
         try {
           const response = await axios.get('/ping');
@@ -87,8 +92,7 @@ const useApiStore = create((set) => ({
           }
         },
         
-       
-      
+        
       
     }));
 
