@@ -13,6 +13,7 @@ export default function SignIn() {
   const{login,setToken,setUserName} = useApiStore()
   const mutation = useMutation(login)
  const navigate = useNavigate()
+ 
   const {
     register,
     handleSubmit,
@@ -28,13 +29,13 @@ export default function SignIn() {
   
     mutation.mutate(data, {
       onSuccess: (data) => {
-        abstractFirstTwoLetters(username)
-        setUserName(username)
+      const newName =  abstractFirstTwoLetters(username)
+        setUserName(newName)
         const {token} = data
         alert(token);
         console.log(token);
         setToken(token)
-        navigate("/user")
+        navigate("/")
 
       },
       onError: (error) => {
