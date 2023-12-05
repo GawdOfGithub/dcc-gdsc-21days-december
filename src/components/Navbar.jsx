@@ -1,7 +1,16 @@
 
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useApiStore from "../api/ApiStore";
 const Navbar = () => {
-   
+  const {setToken,logout,userName} = useApiStore();
+   const navigate = useNavigate()
+
+   const handleLogout = ()=>
+   {
+    logout()
+   }
+   const user = useApiStore((state)=>(state.token))
     return (
         <>
         
@@ -18,34 +27,48 @@ const Navbar = () => {
     </div>
     <img src="dcc.svg" height={50} width={50}/>
   </div>
-  <div className="navbar-center hidden lg:flex">
+  <div className="navbar-center ">
     <ul className="menu menu-horizontal px-1 flex items-center justify-center">
+     
       <li><Link to="/">Home</Link></li>
       <li><Link to="/Taskset">Tasks</Link></li>
       <li><Link to="/LeaderBoard">LeaderBoard</Link></li>
       <li><Link to="/FAQs">FAQs</Link></li>
+
     </ul>
   </div>
+{
+  !user ?
+  (<>
   <div className="navbar-end">
-   
+
+  <button className="avatar placeholder " onClick={()=>navigate("/signIn")}>
+  
+  <div className="bg-neutral text-neutral-content rounded-full w-16 custom-bg-color">
+    <span className="text-1xl">Login</span>
   </div>
-  <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-       Login
-        </div>
+</button> 
+
+
+  </div>
+  </>):
+  <>
+  <div className=" navbar navbar-end  dropdown dropdown-bottom">
+      <div tabIndex={0} role="button" className="avatar placeholder ">
+      <div className="bg-neutral text-neutral-content rounded-full w-16">
+    <span className="text-xl">{userName}</span>
+  </div>
       </div>
-      <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li>
-          <a className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+      <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-30">
+        
+      <Link to="/user"><button onClick={handleLogout}>User</button></Link>
+        <li><button onClick={handleLogout}>Logout</button></li>
       </ul>
     </div>
+  </>
+}
+ 
+  
 </div>
         </>
     );

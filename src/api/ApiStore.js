@@ -5,6 +5,7 @@ import axios from './axiosConfig';
 const useApiStore = create((set) => ({
   token:localStorage.getItem('token')|| null,
   message:null,
+  userName:null,
   
   
   setToken:(newToken)=>
@@ -12,10 +13,17 @@ const useApiStore = create((set) => ({
     set({ token: newToken });
     localStorage.setItem('token', newToken);
   },
+  setUserName:(userName)=>
+  {
+    set({userName})
+  },
+
+
   
   logout:()=>
   {
     set({token:null})
+    set({userName:null})
     localStorage.removeItem('token');
   },
 
@@ -91,6 +99,7 @@ const useApiStore = create((set) => ({
             throw error;
           }
         },
+        
         
         
       

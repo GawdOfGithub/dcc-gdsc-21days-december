@@ -8,10 +8,12 @@ import {useMutation} from 'react-query'
 import useApiStore from '../api/ApiStore';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../components/Loader';
+import abstractFirstTwoLetters from '../Helpers/abstractFirstTowLetters';
 export default function SignIn() {
-  const{login,setToken} = useApiStore()
+  const{login,setToken,setUserName} = useApiStore()
   const mutation = useMutation(login)
  const navigate = useNavigate()
+ 
   const {
     register,
     handleSubmit,
@@ -22,14 +24,18 @@ export default function SignIn() {
  
   const onSubmit = (data) => {
     console.log(data);
+    const {username} = data
+    console.log(username);
   
     mutation.mutate(data, {
       onSuccess: (data) => {
-        const {msg,token} = data
+      const newName =  abstractFirstTwoLetters(username)
+        setUserName(newName)
+        const {token} = data
         alert(token);
         console.log(token);
         setToken(token)
-        navigate("/user")
+        navigate("/")
 
       },
       onError: (error) => {
