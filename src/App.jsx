@@ -1,31 +1,81 @@
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
-import AdminDashboard from './components/AdminDashboard'
-import UserDashBoard from './components/UserDashBoard'
 
+import AdminDashboard from './ui/AdminDashboard'
+import UserDashBoard from './ui/UserDashboard'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Home from './ui/Home';
+import Error from './ui/Error'
+import AppLayout from './ui/AppLayout';
+import Register from './ui/Register';
+import SignIn from './ui/SignIn';
+import LeaderBoard from './ui/LeaderBoard';
+import Testing from './ui/testing';
+import Display from './ui/Display';
+import AdminTaskSubmit from './ui/AdminTaskSubmit'
+
+
+import Faq from './ui/FAQ';
+import Taskset from './ui/Taskset';
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    errorElement: <Error />,
+  
+
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: '/display',
+        element: <Display />,
+      },
+      {
+        path: '/admin',
+        element: <AdminDashboard />,
+      },
+      {
+        path: '/test',
+        element: <Testing/>,
+      },
+
+      
+      {
+        path: '/user',
+        element: <UserDashBoard/>,
+      },
+      {
+        path: '/LeaderBoard',
+        element: <LeaderBoard/>,
+      },
+      {
+        path: '/FAQs',
+        element: <Faq/>,
+      },
+      {
+        path: '/adminttasksubmission',
+        element: <AdminTaskSubmit/>,
+      },
+      {
+        path: '/Taskset',
+        element: <Taskset/>,
+      },
+      {
+        path: '/register',
+        element: <Register/>,
+      },
+      {
+      path: '/signin',
+        element: <SignIn/>,
+      },
+      
+    ],
+  },
+]);
 
 function App() {
-
-  return (
-    <Routes>
-      <Route path ='/admin' element={<AdminDashboard/>}></Route>
-      <Route path ='/user' element={<UserDashBoard/>}></Route>
-    </Routes>
-  )
+  
+  return <RouterProvider router={router} />;
 }
 
-export default App
-
-// .custom-bg-color {
-//   background: #141e30; /* fallback for old browsers */
-//   background: -webkit-linear-gradient(
-//     315deg,
-//     #243b55,
-//     #141e30
-//   ); /* Chrome 10-25, Safari 5.1-6 */
-//   background: linear-gradient(
-//     315deg,
-//     #243b55,
-//     #141e30
-//   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-// }
+export default App;
