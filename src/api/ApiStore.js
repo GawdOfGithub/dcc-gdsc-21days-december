@@ -13,10 +13,17 @@ const useApiStore = create((set) => ({
     set({ token: newToken });
     localStorage.setItem('token', newToken);
   },
-  setUserName:(userName)=>
+  setUserName:(data)=>
   {
-    set({userName})
+    set({ userName: data });
+    localStorage.setItem('userName', data);
   },
+  setFullName:(data)=>
+  {
+    set({ fullName: data });
+    localStorage.setItem('fullName', data);
+  },
+
 
 
   
@@ -25,6 +32,8 @@ const useApiStore = create((set) => ({
     set({token:null})
     set({userName:null})
     localStorage.removeItem('token');
+    localStorage.removeItem('userName')
+    localStorage.removeItem('fullName')
   },
 
 
@@ -99,7 +108,17 @@ const useApiStore = create((set) => ({
             throw error;
           }
         },
-        
+        submissionEvaluation: 
+        async (data) => {
+          try {
+            const response = await axios.post('/submission/evaulation', data);
+            return response.data
+          } catch (error) {
+            console.error('Error in register:', error.message, error.response);
+            throw error;
+          }
+        },
+
         
         
       

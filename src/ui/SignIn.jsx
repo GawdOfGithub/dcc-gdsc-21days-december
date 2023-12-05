@@ -10,10 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import abstractFirstTwoLetters from '../Helpers/abstractFirstTowLetters';
 export default function SignIn() {
-  const{login,setToken,setUserName} = useApiStore()
+  const{login,setToken,setUserName,setFullName} = useApiStore()
   const mutation = useMutation(login)
  const navigate = useNavigate()
- 
+
   const {
     register,
     handleSubmit,
@@ -25,21 +25,22 @@ export default function SignIn() {
   const onSubmit = (data) => {
     console.log(data);
     const {username} = data
+  
     console.log(username);
   
     mutation.mutate(data, {
       onSuccess: (data) => {
+      setFullName(username)
       const newName =  abstractFirstTwoLetters(username)
         setUserName(newName)
         const {token} = data
-        alert(token);
         console.log(token);
         setToken(token)
         navigate("/")
 
       },
       onError: (error) => {
-        console.log(error);
+        alert("wrong credentials ")
         
       },
     });
@@ -120,7 +121,9 @@ export default function SignIn() {
         </p>
       </div>
       <div className='text-center mt-5 '>
+
         <button className='custom-bg-color  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' 
+        onClick={()=>navigate("/register")}
          >
           Register Now 
         </button>
