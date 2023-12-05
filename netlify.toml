@@ -1,0 +1,6 @@
+[build]
+  command = "bun run build"
+  publish = "path_to_your_publish_directory"
+
+[build.environment]
+  BUN_INSTALL_COMMAND = "bun i"
