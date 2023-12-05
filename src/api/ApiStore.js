@@ -25,6 +25,37 @@ const useApiStore = create((set) => ({
           throw error; 
         }
       },
+      getSubmission: async () => {
+        try {
+          const response = await axios.get('/submission/my');
+          set({ responseData: response.data });
+          return response.data;
+        } catch (error) {
+          console.error(error);
+          throw error; 
+        }
+      },
+      getAdminSubmission: async (domain) => {
+        try {
+          const response = await axios.get(`/submission/all/${domain}`);
+          set({ responseData: response.data });
+          return response.data;
+        } catch (error) {
+          console.error(error);
+          throw error; 
+        }
+      },
+      getLeaderBoard: async () => {
+        try {
+          const response = await axios.get('/leaderboard/all');
+          set({ responseData: response.data });
+          return response.data;
+        } catch (error) {
+          console.error(error);
+          throw error; 
+        }
+      },
+
       register: 
         async (data) => {
           try {
@@ -45,6 +76,17 @@ const useApiStore = create((set) => ({
             throw error;
           }
         },
+        submission: 
+        async (data) => {
+          try {
+            const response = await axios.post('/submission', data);
+            return response.data
+          } catch (error) {
+            console.error('Error in register:', error.message, error.response);
+            throw error;
+          }
+        },
+        
        
       
       

@@ -61,24 +61,7 @@ else
           <label className='flex justify-center mb-4  text-2xl font-extrabold'>
             Sign Up 🚀
           </label>
-          <input
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-white font-bold leading-tight focus:outline-none focus:shadow-outline custom-bg-color'
-            {...register("username", { required: "Username is required", pattern:
-            {
-            value:/^[a-zA-Z0-9_]+$/,
-            message:"Username must contain only alphabets, numbers and underscores"
-            }
           
-          })}
-            placeholder='Username'
-          />
-              
-
-<ErrorMessage
-  errors={errors}
-  name="username"
-  render={({ message }) => <p className='text-red-500'>{message}</p>}
-/>
                 
         </div>
         <div className='mb-4'>
