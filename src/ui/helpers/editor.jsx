@@ -25,7 +25,7 @@ import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { useState } from "react";
-import axios from "../../api/axiosConfig"
+import axios from "../../api/axiosConfig";
 import { BASE_URL } from "../../data/data";
 
 const Dropdown = ({ options, onSelect }) => {
@@ -224,7 +224,6 @@ const EditorJSONPreview = () => {
   const [domain, setDomain] = useState("web");
   const [day, setDay] = useState();
   const [title, setTitle] = useState();
-  
 
   const handleClick = async (e) => {
     try {
@@ -235,7 +234,17 @@ const EditorJSONPreview = () => {
           title,
           description: JSON.stringify(editor?.getHTML(), null, 2),
         })
+        .then((res) => {
+          setDay(1);
+          setDomain("web");
+          setTitle("");
+          if (res.status === 200) alert("Badhai ho, -- Data gya..!! ");
+        })
         .catch((err) => {
+          setDay(1);
+          setDomain("web");
+          setTitle("");
+          alert("kuchh bkchodi ki ho? ");
           console.error("Error Sending Admin data:", err);
         });
     } catch {

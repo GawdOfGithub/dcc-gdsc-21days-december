@@ -159,7 +159,7 @@ function Taskset() {
 
   const targetDate = "2023-12-01";
   // const curDay = getDayDifferenceFromSpecificDate(targetDate);
-  const curDay = 8;
+  const curDay = 25;
 
   // ---
 
@@ -177,7 +177,7 @@ function Taskset() {
     <div id="taskset">
       <div className="dropdown dropdown-hover flex hoverBox justify-center">
         <div tabIndex={0} role="button" className="btn m-1">
-          {activeTab}
+          {activeTab} &#x25BC;
         </div>
         <ul
           tabIndex={0}

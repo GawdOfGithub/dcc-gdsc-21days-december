@@ -2,7 +2,7 @@ import React from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import { Link } from "react-router-dom";
-import timeline from "../timeline.png";
+import timeline from "../assets/timeline.png";
 import { useState, useEffect } from "react";
 const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
