@@ -1,6 +1,3 @@
 [build]
-  command = "bun run build"
-  publish = "path_to_your_publish_directory"
-
-[build.environment]
-  BUN_INSTALL_COMMAND = "bun i"
+  command = "npm i --legacy-peer-deps && npm run build"
+  publish = "dist"
