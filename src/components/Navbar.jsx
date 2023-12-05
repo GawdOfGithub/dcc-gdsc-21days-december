@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useApiStore from "../api/ApiStore";
 const Navbar = () => {
-  const {setToken,logout,userName} = useApiStore();
+  const {setToken,logout} = useApiStore();
    const navigate = useNavigate()
-
+const userNickName = localStorage.getItem('userName')
    const handleLogout = ()=>
    {
     logout()
    }
+
    const user = useApiStore((state)=>(state.token))
     return (
         <>
@@ -56,7 +57,7 @@ const Navbar = () => {
   <div className=" navbar navbar-end  dropdown dropdown-bottom">
       <div tabIndex={0} role="button" className="avatar placeholder ">
       <div className="bg-neutral text-neutral-content rounded-full w-16">
-    <span className="text-xl">{userName}</span>
+    <span className="text-xl ">{userNickName}</span>
   </div>
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-30">

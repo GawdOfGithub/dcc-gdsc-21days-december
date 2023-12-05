@@ -16,13 +16,10 @@ const LeaderBoard = () => {
  const [activeTab, setActiveTab] = useState("");
  const data = [
    {
-     username: "samrat_53",
-     score: 100,
+     username: "",
+     score: "",
    },
-   {
-     username: "samrat_53",
-     score: 100,
-   },
+
  ];
 
 

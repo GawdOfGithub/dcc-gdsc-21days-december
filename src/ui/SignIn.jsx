@@ -13,7 +13,7 @@ export default function SignIn() {
   const{login,setToken,setUserName} = useApiStore()
   const mutation = useMutation(login)
  const navigate = useNavigate()
- 
+
   const {
     register,
     handleSubmit,
@@ -32,7 +32,6 @@ export default function SignIn() {
       const newName =  abstractFirstTwoLetters(username)
         setUserName(newName)
         const {token} = data
-        alert(token);
         console.log(token);
         setToken(token)
         navigate("/")
@@ -120,7 +119,9 @@ export default function SignIn() {
         </p>
       </div>
       <div className='text-center mt-5 '>
+
         <button className='custom-bg-color  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' 
+        onClick={()=>navigate("/register")}
          >
           Register Now 
         </button>

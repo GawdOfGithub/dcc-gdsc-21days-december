@@ -4,6 +4,7 @@ import "./styles.css";
 import { useMutation } from "react-query";
 import { useQuery } from "react-query";
 import useApiStore from "../api/ApiStore";
+import { Loader } from "../components/Loader";
 const UserDashBoard = () => {
   const {submission,getSubmission} = useApiStore()
   const mutation = useMutation(submission)
@@ -19,31 +20,26 @@ const UserDashBoard = () => {
 
   // useDayNumber(onSuccess);
 
-  const [submissionInfo, setSubmissionInfo] = useState([]);
+  const [acceptedSubmissions,setAcceptedSubmissions] = useState({results:[]});
   const {isLoading,onError} = useQuery('getSubmission',getSubmission,
   {
 onSuccess: (data)=>
 {
-  console.log(data);
-  setSubmissionInfo(data)
+  const {accepted,underReview}  = data
+  console.log(accepted);
+  console.log(underReview);
+  setAcceptedSubmissions((prev) => ({ ...prev,results:accepted }));
+  console.log(acceptedSubmissions);
 }
   })
-
+useEffect(() => {
+    // Your UI-related logic here
+    console.log("acceptedSubmissions changed:", acceptedSubmissions);
+    // You can perform any additional UI-related logic here
+  }, [acceptedSubmissions]);
   
   
-  const data = [
-    {
-      day: 1,
-      link: "www.google.com",
-      status: true,
-    },
-    {
-      day: 1,
-      link: "www.google.com",
-      status: true,
-    },
-  ];
-  const [dayNo, setDayNo] = useState();
+  const [dayNo, setDayNo] = useState(1);
   const [driveLink, setDriveLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
@@ -86,13 +82,24 @@ onSuccess: (data)=>
     dayNo,
   };
   mutation.mutate(data, {
-    onSuccess: (data)=>
+    onSuccess: ()=>
     {
-      console.log(data);
-    }
+      alert("Data reached dcc successfully")
+    },
+    onError:(error)=>
+    {
+      alert(error)
+    },
+    
   })
 }
 
+if(mutation.isLoading)
+  {
+    return <Loader/>
+  }
+  else 
+  {
 
   return (
     <>
@@ -166,7 +173,7 @@ onSuccess: (data)=>
         >
           Submit
         </button>
-        <h2 className="pt-6 -mb-3 underline text-white">Your Submissions</h2>
+        <h2 className="pt-6 -mb-3 underline text-white">Accepted Submissions</h2>
         <div className="table-box overflow-x-auto w-[50%] ">
           <table className="table my-2 ">
             <thead>
@@ -177,26 +184,33 @@ onSuccess: (data)=>
               </tr>
             </thead>
             <tbody>
-              {submissionInfo.map((item) => (
-                <tr key={item.day}>
-                  <td>{item.day}</td>
-                  <td>
-                    <a
-                      href={item.link}
-                      className="overflow-hidden truncate max-w-xs block underline"
-                    >
-                      Drive Link
-                    </a>
-                  </td>
-                  <td>{item.status ? "Accepted" : "Rejected"}</td>
-                </tr>
-              ))}
+            {
+  acceptedSubmissions.results && acceptedSubmissions.results.length > 0
+    ? acceptedSubmissions.results.map((item, index) => (
+        <tr key={index}>
+          <td>{item.dayNo}</td>
+          <td>
+            <a
+              href={item.link}
+              className="overflow-hidden truncate max-w-xs block underline"
+            >
+              Drive Link
+            </a>
+          </td>
+          <td>{item.status ? "Accepted" : "Rejected"}</td>
+        </tr>
+      ))
+    : <tr>
+        <td colSpan="3">No submission found</td>
+      </tr>
+}
             </tbody>
           </table>
         </div>
       </div>
     </>
   );
+}
 };
 
 export default UserDashBoard;
