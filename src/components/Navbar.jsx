@@ -57,7 +57,7 @@ const userNickName = localStorage.getItem('userName')
   <div className=" navbar navbar-end  dropdown dropdown-bottom">
       <div tabIndex={0} role="button" className="avatar placeholder ">
       <div className="bg-neutral text-neutral-content rounded-full w-16">
-    <span className="text-xl ">{userNickName}</span>
+    <span className="text-xl ">{`${userNickName?userNickName:"Login"}`}</span>
   </div>
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-30">

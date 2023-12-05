@@ -12,12 +12,14 @@ import Testing from './ui/testing';
 import Display from './ui/Display';
 import AdminTaskSubmit from './ui/AdminTaskSubmit'
 
+
 import Faq from './ui/FAQ';
 import Taskset from './ui/Taskset';
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <Error />,
+  
 
     children: [
       {

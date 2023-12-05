@@ -18,6 +18,12 @@ const useApiStore = create((set) => ({
     set({ userName: data });
     localStorage.setItem('userName', data);
   },
+  setFullName:(data)=>
+  {
+    set({ fullName: data });
+    localStorage.setItem('fullName', data);
+  },
+
 
 
   
@@ -27,6 +33,7 @@ const useApiStore = create((set) => ({
     set({userName:null})
     localStorage.removeItem('token');
     localStorage.removeItem('userName')
+    localStorage.removeItem('fullName')
   },
 
 

@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import useApiStore from "../api/ApiStore";
 import { Loader } from "../components/Loader";
 const UserDashBoard = () => {
+  
   const {submission,getSubmission} = useApiStore()
   const mutation = useMutation(submission)
 
@@ -19,6 +20,9 @@ const UserDashBoard = () => {
   // };
 
   // useDayNumber(onSuccess);
+
+
+  const fullName  = localStorage.getItem('fullName')
 
   const [acceptedSubmissions,setAcceptedSubmissions] = useState({results:[]});
   const {isLoading,onError} = useQuery('getSubmission',getSubmission,
@@ -104,7 +108,8 @@ if(mutation.isLoading)
   return (
     <>
       <div className="custom-bg-color bounded flex flex-col items-center justify-center h-[100vh]">
-        <h1 className="pb-7 ">User Dashboard</h1>
+      <h1 className="pb-7 text-red-500 ">{`${fullName ? `${fullName}'s` : "User"} DashBoard`}</h1>
+
         <div className="submission-form rounded-lg lg:flex items-center justify-center p-8 w-[50wh]">
           <select
             className="select select-bordered w-full max-w-xs"

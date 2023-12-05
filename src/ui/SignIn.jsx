@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import abstractFirstTwoLetters from '../Helpers/abstractFirstTowLetters';
 export default function SignIn() {
-  const{login,setToken,setUserName} = useApiStore()
+  const{login,setToken,setUserName,setFullName} = useApiStore()
   const mutation = useMutation(login)
  const navigate = useNavigate()
 
@@ -25,10 +25,12 @@ export default function SignIn() {
   const onSubmit = (data) => {
     console.log(data);
     const {username} = data
+  
     console.log(username);
   
     mutation.mutate(data, {
       onSuccess: (data) => {
+      setFullName(username)
       const newName =  abstractFirstTwoLetters(username)
         setUserName(newName)
         const {token} = data
@@ -38,7 +40,7 @@ export default function SignIn() {
 
       },
       onError: (error) => {
-        console.log(error);
+        alert("wrong credentials ")
         
       },
     });
