@@ -1,28 +1,35 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./styles.css";
-import { useDayNumber } from "../hooks/useDayNo";
+// import { useDayNumber } from "../hooks/useDayNo";
+import { useMutation } from "react-query";
+import { useQuery } from "react-query";
+import useApiStore from "../api/ApiStore";
 const UserDashBoard = () => {
-  const [dayNo, setDayNo] = useState();
-  
+  const {submission,getSubmission} = useApiStore()
+  const mutation = useMutation(submission)
 
-  
-const onSuccess  = async(result) =>
+  // const onSuccess = async (result) => {
+  //   try {
+  //     console.log(result);
+  //     await setDayNo((result) => setDayNo(result));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useDayNumber(onSuccess);
+
+  const [submissionInfo, setSubmissionInfo] = useState([]);
+  const {isLoading,onError} = useQuery('getSubmission',getSubmission,
+  {
+onSuccess: (data)=>
 {
-  try
-  {
-
-  console.log(result);
- await setDayNo((result)=>setDayNo(result))
-  }
-  catch(error)
-  {
-    console.log(error);
-  }
-
+  console.log(data);
+  setSubmissionInfo(data)
 }
+  })
 
-
-useDayNumber(onSuccess)
+  
   
   const data = [
     {
@@ -36,24 +43,26 @@ useDayNumber(onSuccess)
       status: true,
     },
   ];
-
+  const [dayNo, setDayNo] = useState();
   const [driveLink, setDriveLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState("");
   const handleDriveLinkChange = (e) => {
     setDriveLink(e.target.value);
   };
+  const handleDayNoChange = (e) => {
+    setDayNo(e.target.value);
+  }
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
     console.log(selectedOption);
   };
   const handleLiveLinkChange = (e) => {
     setLiveLink(e.target.value);
-  };
-
+  }
   const handleSubmit = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     const isValidUrl = urlRegex.test(driveLink);
 
@@ -62,16 +71,39 @@ useDayNumber(onSuccess)
       alert(`Invalid link`);
       return;
     }
+
+
     console.log(dayNo);
-    console.log("Form submitted:", { driveLink, liveLink,domain:selectedOption,dayNo });
+    console.log("Form submitted:", {
+      driveLink,
+      liveLink,
+      domain: selectedOption,
+      dayNo
+    });
+    const data = {  driveLink,
+    liveLink,
+    domain: selectedOption,
+    dayNo,
   };
+  mutation.mutate(data, {
+    onSuccess: (data)=>
+    {
+      console.log(data);
+    }
+  })
+}
+
 
   return (
     <>
       <div className="custom-bg-color bounded flex flex-col items-center justify-center h-[100vh]">
         <h1 className="pb-7 ">User Dashboard</h1>
         <div className="submission-form rounded-lg lg:flex items-center justify-center p-8 w-[50wh]">
-          <select className="select select-bordered w-full max-w-xs" value={selectedOption} onChange={handleChange}>
+          <select
+            className="select select-bordered w-full max-w-xs"
+            value={selectedOption}
+            onChange={handleChange}
+          >
             <option disabled selected>
               Select Domain
             </option>
@@ -85,7 +117,20 @@ useDayNumber(onSuccess)
               Artificial Intelligence & Machine Learning
             </option>
           </select>
-
+          <label className="form-control w-full max-w-xs p-3 mb-9 ">
+            <div className="label ">
+              <span className="label-text text-white">Day Number</span>
+              <span className="label-text-alt text-red-500">*</span>
+            </div>
+            <input
+              type="number"
+              placeholder="Mandatory"
+              name="day"
+              value={dayNo}
+              onChange={handleDayNoChange}
+              className="input input-bordered w-full max-w-xs"
+            />
+          </label>
           <label className="form-control w-full max-w-xs p-3 mb-9 ">
             <div className="label ">
               <span className="label-text text-white">Drive Link</span>
@@ -118,7 +163,6 @@ useDayNumber(onSuccess)
           className="btn -mt-9 mb-8 text-white hover:bg-green-500 hover:text-white"
           onClick={handleSubmit}
           disabled={!driveLink}
-          
         >
           Submit
         </button>
@@ -133,7 +177,7 @@ useDayNumber(onSuccess)
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => (
+              {submissionInfo.map((item) => (
                 <tr key={item.day}>
                   <td>{item.day}</td>
                   <td>

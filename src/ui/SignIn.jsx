@@ -26,7 +26,8 @@ export default function SignIn() {
     mutation.mutate(data, {
       onSuccess: (data) => {
         const {msg,token} = data
-        alert(msg);
+        alert(token);
+        console.log(token);
         setToken(token)
         navigate("/user")
 

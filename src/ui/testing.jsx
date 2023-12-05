@@ -6,7 +6,7 @@ const Testing = () => {
   const [pong, setPong] = useState();
 
   const { testApi,responseData } = useApiStore(); // Fix: use destructuring for the named export
-  const { data, isLoading, error,onSuccess } = useQuery('testApi', testApi);
+  const { data, isLoading, error,onSuccess,onError } = useQuery('testApi', testApi, );
 
 
   const handleIt = async() => {

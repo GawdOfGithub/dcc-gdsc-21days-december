@@ -1,9 +1,18 @@
-import React from "react";
 import { useState } from "react";
 import "./styles.css";
-
+import useApiStore from "../api/ApiStore";
+import { useQuery } from "react-query";
 
 const LeaderBoard = () => {
+
+  const{getLeaderBoard} = useApiStore()
+  const {onSuccess,onErrror,Data} = useQuery('leaderboard',getLeaderBoard, {
+
+    onSuccess: ()=>
+    {
+    console.log(Data);
+    }
+  })
  const [activeTab, setActiveTab] = useState("");
  const data = [
    {
