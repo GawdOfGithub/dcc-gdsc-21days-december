@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.19",
     "@tiptap/extension-color": "^2.1.13",
+    "@tiptap/extension-link": "^2.1.13",
     "@tiptap/extension-text-style": "^2.1.13",
     "@tiptap/pm": "^2.1.13",
     "@tiptap/react": "^2.1.13",

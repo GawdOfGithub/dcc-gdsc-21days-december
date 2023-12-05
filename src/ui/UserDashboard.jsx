@@ -78,7 +78,7 @@ useEffect(() => {
       driveLink,
       liveLink,
       domain: selectedOption,
-      dayNo
+      dayNo: parseInt(dayNo)
     });
     const data = {  driveLink,
     liveLink,
@@ -125,7 +125,7 @@ if(mutation.isLoading)
             <option name="android" value="android">
               Android Development
             </option>
-            <option name="aiml" value="aiml">
+            <option name="ml" value="ml">
               Artificial Intelligence & Machine Learning
             </option>
           </select>

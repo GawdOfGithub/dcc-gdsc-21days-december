@@ -140,9 +140,8 @@ function Taskset() {
   const handleCheck = (e) => {
     setTaskData(e);
   };
-  if(isLoading)
-  {
-    return <Loader></Loader>
+  if (isLoading) {
+    return <Loader></Loader>;
   }
   return (
     <div id="taskset">

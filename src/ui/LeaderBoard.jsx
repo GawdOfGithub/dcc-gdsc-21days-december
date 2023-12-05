@@ -6,11 +6,11 @@ import { useQuery } from "react-query";
 const LeaderBoard = () => {
 
   const{getLeaderBoard} = useApiStore()
-  const {onSuccess,onErrror,Data} = useQuery('leaderboard',getLeaderBoard, {
+  const {onSuccess,onErrror,responseData} = useQuery('leaderboard',getLeaderBoard, {
 
     onSuccess: ()=>
     {
-    console.log(Data);
+    console.log(responseData);
     }
   })
  const [activeTab, setActiveTab] = useState("");
@@ -53,9 +53,9 @@ const LeaderBoard = () => {
            <a
              role="tab"
              className={`tab ${
-               activeTab === "/aiml" ? "tab-active text-black" : "text-white"
+               activeTab === "/ml" ? "tab-active text-black" : "text-white"
              }`}
-             onClick={() => setActiveTab("/aiml")}
+             onClick={() => setActiveTab("/ml")}
            >
              AI/ML
            </a>

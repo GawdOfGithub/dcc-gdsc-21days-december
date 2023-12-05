@@ -23,10 +23,12 @@ import StarterKit from "@tiptap/starter-kit";
 import PropTypes from "prop-types";
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
+import Link from '@tiptap/extension-link';
 import TextStyle from "@tiptap/extension-text-style";
 import { useState } from "react";
 import axios from "../../api/axiosConfig";
 import { BASE_URL } from "../../data/data";
+import { useCallback } from "react";
 
 const Dropdown = ({ options, onSelect }) => {
   return (
@@ -55,6 +57,33 @@ const MenuBar = () => {
   if (!editor) {
     return null;
   }
+
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
+
+    // cancelled
+    if (url === null) {
+      return;
+    }
+
+    // empty
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink()
+        .run();
+
+      return;
+    }
+
+    // update link
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+      .run();
+  }, [editor]);
+
+  if (!editor) {
+    return null;
+  }
+
 
   const headingLevels = [1, 2, 3, 4, 5, 6].map((level) => ({
     label: `H${level}`,
@@ -153,6 +182,9 @@ const MenuBar = () => {
       >
         <FontAwesomeIcon icon={faDroplet} />
       </button>
+      <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
+        setLink
+      </button>
       <Dropdown
         options={headingLevels}
         onSelect={(option) => option.action()}
@@ -174,6 +206,9 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
+  Link.configure({
+    validate: href => /^https?:\/\//.test(href),
+  })
 ];
 
 const content = `
@@ -232,7 +267,7 @@ const EditorJSONPreview = () => {
           domain,
           dayNo: day,
           title,
-          description: JSON.stringify(editor?.getHTML(), null, 2),
+          description: editor?.getHTML(),
         })
         .then((res) => {
           setDay(1);
