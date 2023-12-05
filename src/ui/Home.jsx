@@ -2,7 +2,7 @@ import React from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import { Link } from "react-router-dom";
-import timeline from "../../public/timeline.png";
+import timeline from "../timeline.png";
 import { useState, useEffect } from "react";
 const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -58,7 +58,7 @@ const Home = () => {
     <div className="homePage">
       <div className="homeContent">
         <div className="homeImage">
-          <img src="/timeline.png" alt="timeline" className="custom-bg-color" />
+          <img src={timeline} alt="timeline" className="custom-bg-color" />
         </div>
         <div className="text">
           <h1>
@@ -77,7 +77,7 @@ const Home = () => {
             <span
               className="txt-rotate"
               dataPeriod="100"
-              data-rotate='[ "Developer", "Crickter", "Competitive Programmer" ]'
+              data-rotate='[ "Web Development", "Mobile Development", "Machine Learning", ]'
             >
               <span className="wrap">{text}</span>
             </span>

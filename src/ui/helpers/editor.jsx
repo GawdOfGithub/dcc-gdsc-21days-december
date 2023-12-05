@@ -25,6 +25,8 @@ import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { useState } from "react";
+import axios from "../../api/axiosConfig"
+import { BASE_URL } from "../../data/data";
 
 const Dropdown = ({ options, onSelect }) => {
   return (
@@ -222,11 +224,12 @@ const EditorJSONPreview = () => {
   const [domain, setDomain] = useState("Web");
   const [day, setDay] = useState();
   const [title, setTitle] = useState();
+  
 
   const handleClick = async (e) => {
     try {
       await axios
-        .post(`${Base_Url}/task/set`, {
+        .post(`${BASE_URL}/task/set`, {
           domain,
           dayNo: day,
           title,
