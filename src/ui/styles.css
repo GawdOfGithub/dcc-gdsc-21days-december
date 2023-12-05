@@ -51,7 +51,7 @@ td {
   width: 80vw;
   border-width: 2px;
   border-color: rgb(51, 60, 61);
-  border-radius: 5%;
+  border-radius: 10px;
   overflow: hidden;
 }
 

@@ -1,70 +1,71 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import ReactHtmlParser from "react-html-parser";
+import { BASE_URL } from "../data/data";
 
-const data = [
+const dummydata = [
   {
-    day: 1,
+    dayNo: 1,
     title: "HTML AND CSS BASICS",
     description:
       "<p>HTML and CSS are fundamental technologies for web development. HTML is used for structuring web content, while CSS is used for styling. Understanding these basics is crucial for building modern websites.</p>",
   },
   {
-    day: 2,
+    dayNo: 2,
     title: "JavaScript Fundamentals",
     description:
       "JavaScript is a versatile programming language that adds interactivity to web pages. Learn the basics of variables, functions, and control flow to start your journey into web development.",
   },
   {
-    day: 3,
+    dayNo: 3,
     title: "Responsive Web Design",
     description:
       "Create web designs that look good on all devices. Learn about media queries and flexible grid layouts to make your websites responsive and user-friendly.",
     link: "https://example.com/responsive-web-design",
   },
   {
-    day: 4,
+    dayNo: 4,
     title: "Introduction to Git and GitHub",
     description:
       "Version control is essential for collaborative coding. Git and GitHub are widely used tools for tracking changes and managing collaborative projects. Learn the basics of commits, branches, and pull requests.",
     link: "https://example.com/git-and-github",
   },
   {
-    day: 5,
+    dayNo: 5,
     title: "AJAX and Asynchronous JavaScript",
     description:
       "AJAX allows you to update parts of a web page without reloading the entire page. Explore asynchronous JavaScript and learn how to make requests to a server, handle responses, and update your website dynamically.",
     link: "https://example.com/ajax-and-async-js",
   },
   {
-    day: 6,
+    dayNo: 6,
     title: "Introduction to Node.js",
     description:
       "Node.js is a powerful JavaScript runtime that allows you to run JavaScript on the server side. Explore the basics of Node.js and understand how it can be used to build scalable and fast server-side applications.",
     link: "https://example.com/intro-to-nodejs",
   },
   {
-    day: 7,
+    dayNo: 7,
     title: "RESTful API Design",
     description:
       "Learn the principles of designing RESTful APIs. Understand HTTP methods, status codes, and resourceful URL design. Create APIs that are scalable, maintainable, and follow best practices.",
     link: "https://example.com/restful-api-design",
   },
   {
-    day: 8,
+    dayNo: 8,
     title: "Introduction to React.js",
     description:
       "React.js is a popular JavaScript library for building user interfaces. Learn the basics of React components, state, and props. Understand the virtual DOM and how React makes building UIs more efficient.",
     link: "https://example.com/intro-to-reactjs",
   },
   {
-    day: 9,
+    dayNo: 9,
     title: "State Management with Redux",
     description:
       "Redux is a predictable state container for JavaScript apps. Explore how Redux manages the state of your application and facilitates state changes in a predictable way. Understand actions, reducers, and the store.",
     link: "https://example.com/redux-state-management",
   },
   {
-    day: 10,
+    dayNo: 10,
     title: "Deploying a Website",
     description:
       "Explore various methods of deploying your website to make it accessible to the world. Learn about hosting options and best practices for a smooth deployment process.",
@@ -77,34 +78,38 @@ function Taskset() {
   const [taskData, setTaskData] = useState({});
   const [clickDay, setClickDay] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  //   const [data, setData] = useState({});
+  const [data, setData] = useState(dummydata);
 
-  //   const fetchData = async (url) => {
-  //     try {
-  //       const response = await fetch(url);
-  //       const data = await response.json();
-  //       setData(data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     const endpointMap = {
-  //       'Web Development': `${BASEURL}/task/all/web`,
-  //       'Mobile Development': `${BASEURL}/task/all/android`,
-  //       'Machine Learning': `${BASEURL}/task/all/ml`,
-  //     };
+  const fetchData = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  //     const fetchDataForActiveTab = async () => {
-  //       const url = endpointMap[activeTab];
-  //       if (url) {
-  //         fetchData(url);
-  //       }
-  //     };
+  useEffect(() => {
+    const endpointMap = {
+      "Web Development": `${BASE_URL}/task/all/web`,
+      "Mobile Development": `${BASE_URL}/task/all/android`,
+      "Machine Learning": `${BASE_URL}/task/all/ml`,
+    };
 
-  //     fetchDataForActiveTab();
-  //   }, [activeTab]);
+    const fetchDataForActiveTab = async () => {
+      const url = endpointMap[activeTab];
+      if (url) {
+        console.log(url);
+        fetchData(url);
+      }
+    };
+    console.log("USEEFFECT ME AA RHA H ")
+    fetchDataForActiveTab();
+  }, [activeTab]);
 
+  //DELETED
   //   const fetchTaskData = async (url) => {
   //     try {
   //       const response = await fetch(url);
@@ -131,9 +136,32 @@ function Taskset() {
 
   //     fetchDataForActiveTask();
   //   }, [clickDay]);
+  //DELETED
 
-  // const curDay = fetch(`${BASEURL}/day`).json();
-  const curDay = 5;
+  // ---
+  function getDayDifferenceFromSpecificDate(targetDate) {
+    // Convert the target date string to a Date object
+    const targetDateTime = new Date(`${targetDate}T00:00:00+05:30`);
+
+    // Get the current date in IST
+    const currentDate = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = currentDate - targetDateTime;
+
+    // Convert the time difference to days
+    const dayDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+
+    return dayDifference;
+  }
+
+  const targetDate = "2023-12-01";
+  // const curDay = getDayDifferenceFromSpecificDate(targetDate);
+  const curDay = 8;
+
+  // ---
 
   const handleClick = (platform) => {
     setActiveTab(platform);
@@ -185,13 +213,13 @@ function Taskset() {
             <tbody>
               {data.map((item, index) => {
                 // Check if item.day is greater than curDay before rendering
-                if (item.day > curDay) {
+                if (item.dayNo > curDay) {
                   return null; // Skip rendering this row
                 }
 
                 return (
                   <tr key={index}>
-                    <th>{item.day}</th>
+                    <th>{item.dayNo}</th>
                     <td>{item.title}</td>
                     <td>
                       <label
@@ -213,7 +241,7 @@ function Taskset() {
       <div className="modal" role="dialog">
         <div className="modal-box">
           <h3 className="text-lg font-bold">
-            Day {taskData.day} : {taskData.title}
+            Day {taskData.dayNo} : {taskData.title}
           </h3>
           <div className="py-4">{ReactHtmlParser(taskData.description)}</div>
         </div>

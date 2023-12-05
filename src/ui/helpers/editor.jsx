@@ -221,7 +221,7 @@ const Tiptap = () => {
 
 const EditorJSONPreview = () => {
   const { editor } = useCurrentEditor();
-  const [domain, setDomain] = useState("Web");
+  const [domain, setDomain] = useState("web");
   const [day, setDay] = useState();
   const [title, setTitle] = useState();
   
@@ -257,13 +257,13 @@ const EditorJSONPreview = () => {
                 className="dropdown-content z-[1] menu p-2 shadow bg-zinc-700 rounded-box w-52"
               >
                 <li>
-                  <a onClick={() => setDomain("Web")}>Web</a>
+                  <a onClick={() => setDomain("web")}>web</a>
                 </li>
                 <li>
-                  <a onClick={() => setDomain("Mobile")}>Mobile</a>
+                  <a onClick={() => setDomain("android")}>android</a>
                 </li>
                 <li>
-                  <a onClick={() => setDomain("ML")}>ML</a>
+                  <a onClick={() => setDomain("ml")}>ml</a>
                 </li>
               </ul>
             </div>
