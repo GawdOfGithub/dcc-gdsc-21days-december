@@ -11,7 +11,7 @@ import LeaderBoard from './ui/LeaderBoard';
 import Testing from './ui/testing';
 import Display from './ui/Display';
 import AdminTaskSubmit from './ui/AdminTaskSubmit'
-
+import Mock from './ui/Mock'
 
 import Faq from './ui/FAQ';
 import Taskset from './ui/Taskset';
@@ -51,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: '/FAQs',
         element: <Faq/>,
+      },
+      {
+        path: '/mock',
+        element: <Mock/>,
       },
       {
         path: '/adminttasksubmission',

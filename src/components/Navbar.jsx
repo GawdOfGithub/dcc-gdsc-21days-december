@@ -35,6 +35,8 @@ const Navbar = () => {
             <li><Link to="/user">{`${fullName ? `${fullName}'s` : "User"} DashBoard`}</Link></li>
             <li><Link to="/LeaderBoard">LeaderBoard</Link></li>
             <li><Link to="/FAQs">FAQs</Link></li>
+            <li><Link to="/mock">Mock</Link></li>
+
 
           </ul>
         </div>

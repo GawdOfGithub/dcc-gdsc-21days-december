@@ -38,7 +38,7 @@ const UserDashBoard = () => {
     });
 
 
-
+    const [activeTab, setActiveTab] = useState("");
   const [dayNo, setDayNo] = useState(1);
   const [driveLink, setDriveLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
@@ -100,7 +100,7 @@ const UserDashBoard = () => {
 
     return (
       <>
-        <div className="custom-bg-color bounded flex flex-col items-center justify-center h-[100vh]">
+        <div className="custom-bg-color bounded flex flex-col items-center justify-center  z-50">
           <h1 className="pb-7 text-red-500 ">{`${fullName ? `${fullName}'s` : "User"} DashBoard`}</h1>
 
           <div className="submission-form rounded-lg lg:flex items-center justify-center p-8 w-[50wh]">
@@ -171,40 +171,78 @@ const UserDashBoard = () => {
           >
             Submit
           </button>
-          <h2 className="pt-6 -mb-3 underline text-white">Accepted Submissions</h2>
-          <div className="table-box overflow-x-auto w-[50%] ">
-            <table className="table my-2 ">
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Link</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  acceptedSubmissions.results && acceptedSubmissions.results.length > 0
-                    ? acceptedSubmissions.results.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.dayNo}</td>
-                        <td>
-                          <a
-                            href={item.link}
-                            className="overflow-hidden truncate max-w-xs block underline"
-                          >
-                            Drive Link
-                          </a>
-                        </td>
-                        <td>{item.status ? "Accepted" : "Rejected"}</td>
-                      </tr>
-                    ))
-                    : <tr>
-                      <td colSpan="3">No submission found</td>
-                    </tr>
-                }
-              </tbody>
-            </table>
+         
+          <div className="custom-bg-color bounded flex flex-col items-center justify-center ">
+        
+        <div className="submission-form rounded-lg lg:flex items-center justify-center p-8 w-[1000wh]">
+          <div role="tablist" className="tabs-lg tabs-lifted">
+            <a
+              role="tab"
+              className={`tab ${activeTab === "/underReview" ? "tab-active text-black" : "text-white"}`}
+              onClick={() => setActiveTab("/underReview")}
+            >
+              Under Review
+            </a>
+            <a
+              role="tab"
+              className={`tab ${activeTab === "/acceptedSubmissions" ? "tab-active text-black" : "text-white"}`}
+              onClick={() => setActiveTab("/acceptedSubmissions")}
+            >
+              Accepted Submissions
+            </a>
           </div>
+        </div>
+        <div className="table-box-prev">
+          {activeTab === "" ? (
+            <h2 className="text-white items-center mt-8">Track Status</h2>
+          ) : (
+            <div className="table-box overflow-x-auto">
+              {activeTab && (
+                <table className="table-lg my-2 w-[100vh]">
+                  <thead>
+                    <tr>
+                      <th>DayNo</th>
+                      <th>Submission Link</th>
+                      <th>Domain</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {activeTab === "/underReview" ? (
+                      underReviewSubmissions.results && underReviewSubmissions.results.length > 0 ? (
+                        underReviewSubmissions.results.map((item) => (
+                          <tr key={item.dayNo}>
+                            <td>{item.dayNo}</td>
+                            <td><a className="hover:text-red-500" href={item.driveLink}>{item.driveLink}</a></td>
+                            <td>{item.domain}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="2">No submission found</td>
+                        </tr>
+                      )
+                    ) : (
+                      acceptedSubmissions.results && acceptedSubmissions.results.length > 0 ? (
+                        acceptedSubmissions.results.map((item, index) => (
+                          <tr key={index}>
+                           <td>{item.dayNo}</td>
+                           <td><a>{item.driveLink}</a></td>
+                            <td>{item.domain}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="2">No submission found</td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
         </div>
       </>
     );
