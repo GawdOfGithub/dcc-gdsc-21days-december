@@ -23,7 +23,7 @@ const UserDashBoard = () => {
 
 
   const fullName = localStorage.getItem('fullName');
-
+  const [underReviewSubmissions, setUnderReviewSubmissions] = useState({ results: [] });
   const [acceptedSubmissions, setAcceptedSubmissions] = useState({ results: [] });
   const { isLoading, onError } = useQuery('getSubmission', getSubmission,
     {
@@ -32,14 +32,11 @@ const UserDashBoard = () => {
         console.log(accepted);
         console.log(underReview);
         setAcceptedSubmissions((prev) => ({ ...prev, results: accepted }));
+        setUnderReviewSubmissions((prev)=>({...prev,results:underReview}))
         console.log(acceptedSubmissions);
       }
     });
-  useEffect(() => {
-    // Your UI-related logic here
-    console.log("acceptedSubmissions changed:", acceptedSubmissions);
-    // You can perform any additional UI-related logic here
-  }, [acceptedSubmissions]);
+
 
 
   const [dayNo, setDayNo] = useState(1);

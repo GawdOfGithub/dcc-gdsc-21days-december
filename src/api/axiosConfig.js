@@ -2,7 +2,7 @@ import axios from 'axios';
 //https://node.arnabdaz.me
 
 const instance = axios.create({
-  baseURL: 'https://dcc21daysdev-production.up.railway.app/',
+  baseURL: 'https://dcc21daysdev-production.up.railway.app',
 });
 
 
