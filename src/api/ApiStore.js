@@ -29,11 +29,12 @@ const useApiStore = create((set) => ({
   
   logout:()=>
   {
-    set({token:null})
-    set({userName:null})
+   
     localStorage.removeItem('token');
     localStorage.removeItem('userName')
     localStorage.removeItem('fullName')
+    set({token:null})
+    set({userName:null})
   },
 
 
@@ -118,9 +119,6 @@ const useApiStore = create((set) => ({
             throw error;
           }
         },
-
-        
-        
       
     }));
 

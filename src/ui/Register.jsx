@@ -11,9 +11,10 @@ import useApiStore from '../api/ApiStore';
 import { useNavigate} from 'react-router-dom';
 import { ErrorMessage } from "@hookform/error-message"
 import { Loader } from '../components/Loader';
+import abstractFirstTwoLetters from '../Helpers/abstractFirstTowLetters';
 
 export default function Register() {
-  const {setToken,register:registerForm} = useApiStore()
+  const {setToken,register:registerForm,setFullName,setUserName} = useApiStore()
   const navigate = useNavigate()
 const mutation = useMutation(registerForm)
   const {
@@ -29,19 +30,23 @@ const mutation = useMutation(registerForm)
   const onSubmit = (data) => {
     const { confirmPassword, ...formData } = data;
     console.log(formData);
+    const {username} = data
   
+    console.log(username);
     mutation.mutate(formData, {
       onSuccess: (data) => {
-        const {msg,token} = data
-        alert(msg);
-        setToken(token)
-        navigate("/user")
-
-        // You can handle success actions here, such as redirecting to another page
-      },
+        setFullName(username)
+        const newName =  abstractFirstTwoLetters(username)
+          setUserName(newName)
+          const {token} = data
+         
+          setToken(token)
+          navigate("/user")
+  
+        },
       onError: (error) => {
         console.log(error);
-        // You can handle error actions here, such as displaying an error message
+      
       },
     });
   };

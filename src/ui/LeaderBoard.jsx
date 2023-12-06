@@ -4,24 +4,29 @@ import useApiStore from "../api/ApiStore";
 import { useQuery } from "react-query";
 
 const LeaderBoard = () => {
+const [webData, setWebData] = useState({webResults:[]});
+const [androidData, setAndroidData] = useState({androidResult:[]});
+const [mlData, setMlData] = useState({mlResults:[]});
+const a = webData.setWebData
+
 
   const{getLeaderBoard} = useApiStore()
-  const {onSuccess,onErrror,Data} = useQuery('leaderboard',getLeaderBoard, {
+   useQuery('leaderboard',getLeaderBoard, {
 
-    onSuccess: ()=>
+    onSuccess: (Data)=>
     {
-    console.log(Data);
+      console.log(Data);
+    const {web,android,ml} = Data
+    setWebData((prev) => ({ ...prev,webResults:web }));
+    setAndroidData((prev) => ({ ...prev,androidResult:android }));
+    setMlData((prev) => ({ ...prev,mlResults:ml }));
+    console.log(webData);
+  console.log(androidData);
+  console.log(mlData);
     }
   })
  const [activeTab, setActiveTab] = useState("");
- const data = [
-   {
-     username: "",
-     score: "",
-   },
-
- ];
-
+ 
 
  return (
    <>
@@ -53,9 +58,9 @@ const LeaderBoard = () => {
            <a
              role="tab"
              className={`tab ${
-               activeTab === "/aiml" ? "tab-active text-black" : "text-white"
+               activeTab === "/ml" ? "tab-active text-black" : "text-white"
              }`}
-             onClick={() => setActiveTab("/aiml")}
+             onClick={() => setActiveTab("/ml")}
            >
              AI/ML
            </a>
@@ -75,13 +80,28 @@ const LeaderBoard = () => {
                    </tr>
                  </thead>
                  <tbody>
-                   {data.map((item) => (
-                     <tr key={item.username}>
-                       <td>{item.username}</td>
-                       <td>{item.score}</td>
-                     </tr>
-                   ))}
-                 </tbody>
+  {activeTab === "/web" &&
+    webData.webResults.map((item) => (
+      <tr key={item.username}>
+        <td>{item.username}</td>
+        <td>{item.score}</td>
+      </tr>
+    ))}
+  {activeTab === "/android" &&
+    androidData.androidResult.map((item) => (
+      <tr key={item.username}>
+        <td>{item.username}</td>
+        <td>{item.score}</td>
+      </tr>
+    ))}
+  {activeTab === "/ml" &&
+    mlData.mlResults.map((item) => (
+      <tr key={item.username}>
+        <td>{item.username}</td>
+        <td>{item.score}</td>
+      </tr>
+    ))}
+</tbody>
                </table>
              )}
            </div>
