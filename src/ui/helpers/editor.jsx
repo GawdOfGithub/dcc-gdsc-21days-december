@@ -240,7 +240,7 @@ display: none;
   <br />
   — Mom
 </blockquote>
-`
+`;
 const Tiptap = () => {
   return (
     <EditorProvider
@@ -261,25 +261,32 @@ const EditorJSONPreview = () => {
   const [title, setTitle] = useState();
 
 
-//Fetch Data 
-const handleFetch = async (e) => {
-  try {
-    await axios
-      .get(`${BASE_URL}/task/get/${domain}/${day}`)
-      .then((res) => {
-        setTitle(res.title);
-        if (res.status === 200) alert("Badhai ho, -- Data AA gya..!! ");
-      })
-      .catch((err) => {
-        alert("kuchh bkchodi ki ho? ");
-        console.error("Error Getting Admin data:", err);
-      });
-  } catch {
-    console.error("Error Getting data");
-  }
-};
-  
-// SET DATA
+  //Fetch Data 
+  const handleFetch = async (e) => {
+    try {
+      await axios
+        .get(`${BASE_URL}/task/get/${domain}/${day}`)
+        .then((res) => {
+          setTitle(res.title);
+          editor?.commands.setContent(res.description);
+          if (res.status === 200) {
+            console.log(res.data);
+            alert("Badhai ho, -- Data AA gya..!! ");
+          }
+          if (res.status === 404) {
+            alert(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          alert("kuchh bkchodi ki ho? ", err);
+          // console.error("Error Getting Admin data:", err);
+        });
+    } catch {
+      console.error("Error Getting data");
+    }
+  };
+
+  // SET DATA
   const handleClick = async (e) => {
     try {
       await axios
@@ -307,36 +314,7 @@ const handleFetch = async (e) => {
     }
   };
 
-
-
-// Update DATA
-  const handleUpdate = async (e) => {
-    try {
-      await axios
-        .post(`${BASE_URL}/task/update`, {
-          domain,
-          dayNo: day,
-          title,
-          description: editor?.getHTML(),
-        })
-        .then((res) => {
-          setDay(1);
-          setDomain("web");
-          setTitle("");
-          if (res.status === 200) alert("Mubarka, ji Mubarka... Data Update ho gya ");
-        })
-        .catch((err) => {
-          setDay(1);
-          setDomain("web");
-          setTitle("");
-          alert("Ho gya Styanash..");
-          console.error("Error Sending Admin data:", err);
-        });
-    } catch {
-      console.error("Error fetching data");
-    }
-  };
-// /task/get/domain/day
+  // /task/get/domain/day
   return (
     <>
       <div className=" flex gap-5 bg-zinc-800 mt-10 flex-col items-center">
@@ -370,7 +348,7 @@ const handleFetch = async (e) => {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div>
+            <div className="w-full grid grid-flow-col">
               <input
                 type="number"
                 value={day}
@@ -380,13 +358,13 @@ const handleFetch = async (e) => {
                   setDay(e.target.value);
                 }}
               />
-            </div>
-            <div className="w-full grid grid-flow-col">
-              <button className="btn" onClick={handleClick}>
-                Submit
+              <button className="btn" onClick={handleFetch}>
+                Fetch
               </button>
-              <button className="btn" onClick={handleUpdate}>
-                Update
+            </div>
+            <div className="flex justify-center">
+              <button className="btn px-16" onClick={handleClick}>
+                Submit
               </button>
             </div>
           </div>
