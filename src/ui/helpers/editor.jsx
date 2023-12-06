@@ -260,6 +260,33 @@ const EditorJSONPreview = () => {
   const [day, setDay] = useState();
   const [title, setTitle] = useState();
 
+
+  //Fetch Data 
+  const handleFetch = async (e) => {
+    try {
+      await axios
+        .get(`${BASE_URL}/task/get/${domain}/${day}`)
+        .then((res) => {
+          setTitle(res.title);
+          editor?.commands.setContent(res.description);
+          if (res.status === 200) {
+            console.log(res.data);
+            alert("Badhai ho, -- Data AA gya..!! ");
+          }
+          if (res.status === 404) {
+            alert(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          alert("kuchh bkchodi ki ho? ", err);
+          // console.error("Error Getting Admin data:", err);
+        });
+    } catch {
+      console.error("Error Getting data");
+    }
+  };
+
+  // SET DATA
   const handleClick = async (e) => {
     try {
       await axios
@@ -287,6 +314,7 @@ const EditorJSONPreview = () => {
     }
   };
 
+  // /task/get/domain/day
   return (
     <>
       <div className=" flex gap-5 bg-zinc-800 mt-10 flex-col items-center">
@@ -320,7 +348,7 @@ const EditorJSONPreview = () => {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
-            <div>
+            <div className="w-full grid grid-flow-col">
               <input
                 type="number"
                 value={day}
@@ -330,10 +358,15 @@ const EditorJSONPreview = () => {
                   setDay(e.target.value);
                 }}
               />
+              <button className="btn" onClick={handleFetch}>
+                Fetch
+              </button>
             </div>
-            <button className="btn" onClick={handleClick}>
-              Submit
-            </button>
+            <div className="flex justify-center">
+              <button className="btn px-16" onClick={handleClick}>
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

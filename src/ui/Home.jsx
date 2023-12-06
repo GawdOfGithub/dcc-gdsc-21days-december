@@ -4,12 +4,14 @@ import { loadFull } from "tsparticles";
 import { Link } from "react-router-dom";
 import timeline from "../assets/timeline.png";
 import { useState, useEffect } from "react";
+import useApiStore from "../api/ApiStore";
 const Home = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [text, setText] = useState("");
   const [delta, setDelta] = useState(200 - Math.random() * 100);
   const [index, setIndex] = useState(1);
+  const user = useApiStore((state) => state.token);
   const toRotate = [
     "Web Development",
     "Mobile Development",
@@ -82,6 +84,7 @@ const Home = () => {
               <span className="wrap">{text}</span>
             </span>
           </h2>
+          {(!user) && 
           <div className="mt-20 flex justify-center">
             <button className="btn">
               <Link
@@ -91,7 +94,7 @@ const Home = () => {
                 Register Now
               </Link>
             </button>
-          </div>
+          </div>}
         </div>
       </div>
     </div>
