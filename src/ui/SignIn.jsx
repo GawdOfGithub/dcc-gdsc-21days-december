@@ -34,13 +34,14 @@ export default function SignIn() {
       const newName =  abstractFirstTwoLetters(username)
         setUserName(newName)
         const {token} = data
-        console.log(token);
+       
         setToken(token)
-        navigate("/")
+        navigate("/user")
 
       },
       onError: (error) => {
         alert("wrong credentials ")
+      console.log(error);
         
       },
     });

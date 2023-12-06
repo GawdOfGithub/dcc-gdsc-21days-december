@@ -20,13 +20,12 @@ const useApiStore = create((set) => ({
   },
 
   logout: () => {
-    // set({token:null})
-    // set({userName:null})
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('userName')
-    // localStorage.removeItem('fullName')
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('fullName');
+    set({ token: null });
+    set({ userName: null });
   },
-
   testApi: async () => {
     try {
       const response = await axios.get('/ping');
@@ -61,7 +60,6 @@ const useApiStore = create((set) => ({
     try {
       const response = await axios.get('/leaderboard/all');
       set({ responseData: response.data });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
