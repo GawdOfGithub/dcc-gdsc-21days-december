@@ -120,33 +120,19 @@ import axios from "../api/axiosConfig";
 //   },
 // ];
 const AdminDashboard = () => {
-  const [adminSubmissionData, setAdminSubmissionData] = useState([]);
-  const { getAdminSubmission } = useApiStore();
-  const [selectedOption, setSelectedOption] = useState("Web Development");
-  const [points, setPoints] = useState();
-  const [selectSubmission, setSelectSubmission] = useState({
-    username: "samrat_53",
-    dayNo: 1,
+  const dummySelectSubmission = {
+    username: "bhupendra_jogi",
+    dayNo: 69,
     driveLink: "www.google.com",
     status: "pending",
     liveLink: "www.google.com",
     submissionId: "123456789",
-  });
-
-  // const { error, isLoading, refetch } = useQuery(
-  //   ["adminSubmission", selectedOption],
-
-  //   () => getAdminSubmission(selectedOption),
-  //   {
-  //     enabled: false,
-  //     onSuccess: (data) => {
-  //       console.log(data);
-  //       setAdminSubmissionData(data);
-  //     },
-  //   }
-  // );
-
-  // ----
+  };
+  const [adminSubmissionData, setAdminSubmissionData] = useState([]);
+  const { getAdminSubmission } = useApiStore();
+  const [selectedOption, setSelectedOption] = useState("Web Development");
+  const [points, setPoints] = useState();
+  const [selectSubmission, setSelectSubmission] = useState(dummySelectSubmission);
 
   const fetchData = async (url) => {
     try {
@@ -188,16 +174,18 @@ const AdminDashboard = () => {
       submissionId: selectSubmission.submissionId,
       points: points,
     };
-    
 
-    axios.post(`${BASE_URL}/submission/evaluation`, data)
-    .then(response => {
-      console.log('Response:', response.data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    axios
+      .post(`${BASE_URL}/submission/evaluation`, data)
+      .then((response) => {
+        console.log("Response:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
 
+      setSelectSubmission(dummySelectSubmission);
+      setPoints(0);
   };
 
   const handleSubmissionSelect = (item) => {
