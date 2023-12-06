@@ -48,8 +48,8 @@ export const Footer = () => {
   return (
     <footer>
       <div className="footer-content">
-      <img height={100} width={100} src={dcc}/>
-        <h3>DECEMBOTHONE</h3>
+        <img height={100} width={100} src={dcc} />
+        <h3>DECEMBOTHON</h3>
         <p>Developers & Coders Club - Dream Code Conquer</p>
         <div className='college'>
           <span>National Institute of Technology, Agartala</span>
@@ -68,5 +68,5 @@ export const Footer = () => {
         <p>copyright &copy;2023 DCC.</p>
       </div>
     </footer>
-  )
-}
+  );
+};

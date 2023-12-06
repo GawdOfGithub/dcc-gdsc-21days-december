@@ -63,7 +63,7 @@ const Home = () => {
         <div className="text">
           <h1>
             <span className="bg-gradient-to-r from-sky-300 to-fuchsia-700 text-transparent bg-clip-text ">
-              DECEMBOTHONE
+              DECEMBOTHON
             </span>
           </h1>
           <p className="bg-gradient-to-r from-teal-300 to-fuchsia-300 text-transparent bg-clip-text">
