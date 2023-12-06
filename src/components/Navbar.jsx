@@ -5,7 +5,7 @@ import useApiStore from "../api/ApiStore";
 const Navbar = () => {
   const {setToken,logout} = useApiStore();
    const navigate = useNavigate()
-const userNickName = localStorage.getItem('userName')
+const fullName = localStorage.getItem('userName')
    const handleLogout = ()=>
    {
     logout()
@@ -34,6 +34,7 @@ const userNickName = localStorage.getItem('userName')
       <li><Link to="/">Home</Link></li>
       <li><Link to="/Taskset">Tasks</Link></li>
       <li><Link to="/LeaderBoard">LeaderBoard</Link></li>
+      <li><Link to="/user">{`${fullName ? `${fullName}'s` : "User"} DashBoard`}</Link></li>
       <li><Link to="/FAQs">FAQs</Link></li>
 
     </ul>
@@ -57,7 +58,7 @@ const userNickName = localStorage.getItem('userName')
   <div className=" navbar navbar-end  dropdown dropdown-bottom">
       <div tabIndex={0} role="button" className="avatar placeholder ">
       <div className="bg-neutral text-neutral-content rounded-full w-16">
-    <span className="text-xl ">{`${userNickName?userNickName:"Login"}`}</span>
+    <span className="text-xl ">{`${fullName?fullName:"Login"}`}</span>
   </div>
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-30">
