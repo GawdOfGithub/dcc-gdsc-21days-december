@@ -25,7 +25,7 @@ const Navbar = () => {
               <li><a>Admin Dashboard</a></li>
             </ul>
           </div>
-          <img src="dcc.svg" height={50} width={50} />
+          <img src={dcc} height={50} width={50} />
         </div>
         <div className="navbar-center ">
           <ul className="menu menu-horizontal px-1 flex items-center justify-center">
